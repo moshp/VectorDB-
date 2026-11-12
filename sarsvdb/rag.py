@@ -49,13 +49,15 @@ class Generator:
         return out["choices"][0]["message"]["content"].strip(), out["usage"]
 
 
+def load_reranker():
+    from sentence_transformers import CrossEncoder
+    return CrossEncoder(config.RERANK_MODEL, device="cpu")
+
+
 class Retriever:
-    def __init__(self, ingestor: Ingestor, use_reranker: bool = True):
+    def __init__(self, ingestor: Ingestor, reranker=None):
         self.ingestor = ingestor
-        self.reranker = None
-        if use_reranker:
-            from sentence_transformers import CrossEncoder
-            self.reranker = CrossEncoder(config.RERANK_MODEL, device="cpu")
+        self.reranker = reranker
 
     def retrieve(self, question: str, k: int = config.RETRIEVE_K, keep: int = config.CONTEXT_K,
                  rerank: bool = True, docs: Optional[list[str]] = None) -> tuple[list[dict], dict]:

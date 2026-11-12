@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -7,9 +8,13 @@ MANIFEST = DATA / "manifest.json"
 REPORTS = ROOT / "reports"
 PLOTS = ROOT / "plots"
 
-# The web app's database starts empty and holds only uploaded documents.
-APP_STORE = DATA / "app_store"
-UPLOADS = DATA / "uploads"
+# Each web visitor gets a private, empty database for their own uploads,
+# deleted after SESSION_TTL_HOURS without activity.
+SESSIONS_DIR = Path(os.environ.get("DQA_SESSIONS_DIR", DATA / "sessions"))
+SESSION_TTL_HOURS = float(os.environ.get("DQA_SESSION_TTL_HOURS", "6"))
+MAX_DOCS_PER_SESSION = int(os.environ.get("DQA_MAX_DOCS", "5"))
+MAX_PAGES_PER_DOC = int(os.environ.get("DQA_MAX_PAGES", "150"))
+MAX_UPLOAD_MB = int(os.environ.get("DQA_MAX_UPLOAD_MB", "20"))
 # Part 3 ingests the SARS guides into its own test database.
 EVAL_STORE = DATA / "eval_store"
 EVAL_CHROMA = DATA / "eval_chroma"
@@ -31,6 +36,6 @@ CONTEXT_K = 5
 
 LLM_REPO = "bartowski/Llama-3.2-3B-Instruct-GGUF"
 LLM_FILE = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
-LLM_PATH = ROOT / "models" / LLM_FILE
+LLM_PATH = Path(os.environ.get("DQA_MODELS_DIR", ROOT / "models")) / LLM_FILE
 LLM_CONTEXT = 4096
 LLM_MAX_ANSWER_TOKENS = 400

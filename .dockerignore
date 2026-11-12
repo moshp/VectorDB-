@@ -1,0 +1,7 @@
+.git
+data
+plots
+reports
+models
+viz
+**/__pycache__

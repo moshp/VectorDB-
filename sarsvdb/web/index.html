@@ -110,10 +110,11 @@ textarea { font: inherit; color: var(--ink); background: var(--bg); border: 1px 
     <h2 id="docs-title">Documents</h2>
     <div class="drop" id="drop">
       <strong>Drop PDFs or images here</strong>
-      <span class="hint">Scanned pages and images are read with OCR. Up to 50 MB per file.</span>
+      <span class="hint" id="limits">Scanned pages and images are read with OCR.</span>
       <button type="button" class="btn" id="pick">Choose files</button>
       <input type="file" id="file" multiple accept=".pdf,.png,.jpg,.jpeg,.tif,.tiff,.bmp,.webp">
     </div>
+    <p class="hint" id="privacy">Your documents are visible only to you, in this browser.</p>
     <ul class="jobs" id="jobs" aria-live="polite"></ul>
     <ul class="docs" id="docs"></ul>
   </section>
@@ -315,6 +316,13 @@ $("result").addEventListener("click", (e) => {
   el.classList.add("flash");
   setTimeout(() => el.classList.remove("flash"), 1200);
 });
+
+api("/api/limits").then((l) => {
+  $("limits").textContent = `Scanned pages and images are read with OCR. Up to ${l.max_docs} documents, ` +
+    `${l.max_pages} pages and ${l.max_upload_mb} MB each.`;
+  $("privacy").textContent = `Your documents are visible only to you, in this browser, and are deleted ` +
+    `after ${plural(l.ttl_hours, "hour")} without activity.`;
+}).catch(() => {});
 
 loadDocs();
 </script>

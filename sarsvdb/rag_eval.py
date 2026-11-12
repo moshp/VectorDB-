@@ -16,7 +16,7 @@ from . import config
 from .embed import Embedder
 from .ocr import ocr_pdf_page
 from .pipeline import Ingestor
-from .rag import CITATION, RAG, Generator, Retriever
+from .rag import CITATION, RAG, Generator, Retriever, load_reranker
 
 STATS_FILE = config.EVAL_STORE / "ingest_stats.json"
 
@@ -92,7 +92,7 @@ def run(questions_path: str, limit: int | None = None) -> dict:
     if limit:
         items = items[:limit]
     ingestor = Ingestor(config.EVAL_STORE, Embedder(config.MODEL_NAME, config.QUERY_PREFIX))
-    retriever = Retriever(ingestor)
+    retriever = Retriever(ingestor, load_reranker())
     rag = RAG(ingestor, retriever, Generator())
 
     rows = []
