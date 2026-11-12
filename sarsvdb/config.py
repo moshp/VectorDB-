@@ -9,6 +9,7 @@ CHUNKS_FILE = DATA / "chunks.jsonl"
 STORE_DIR = DATA / "store"
 CHROMA_DIR = DATA / "chroma"
 REPORTS = ROOT / "reports"
+PLOTS = ROOT / "plots"
 
 MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 CHUNK_TOKENS = 200

@@ -1,0 +1,362 @@
+{
+  "doc_01.pdf": {
+    "url": null,
+    "category": "earlier scrape",
+    "title": "doc_01",
+    "pages": 0,
+    "usable": false
+  },
+  "doc_02.pdf": {
+    "url": null,
+    "category": "earlier scrape",
+    "title": "APT-03 - Air Passenger Tax - External Guide",
+    "pages": 39,
+    "usable": true
+  },
+  "doc_03.pdf": {
+    "url": null,
+    "category": "earlier scrape",
+    "title": "doc_03",
+    "pages": 0,
+    "usable": false
+  },
+  "doc_04.pdf": {
+    "url": null,
+    "category": "earlier scrape",
+    "title": "doc_04",
+    "pages": 0,
+    "usable": false
+  },
+  "doc_05.pdf": {
+    "url": null,
+    "category": "earlier scrape",
+    "title": "A Guide to the Declaration of Dividends Tax via e@syFile",
+    "pages": 34,
+    "usable": true
+  },
+  "doc_06.pdf": {
+    "url": null,
+    "category": "earlier scrape",
+    "title": "DT-GEN-01-G02 - DECLARATION OF DIVIDENDS TAX VIA EFILING - EXTERNAL GUIDE",
+    "pages": 28,
+    "usable": true
+  },
+  "doc_07.pdf": {
+    "url": null,
+    "category": "earlier scrape",
+    "title": "DT-GEN-01-G03 - A Quick Guide to Dividends Tax - External Guide",
+    "pages": 10,
+    "usable": true
+  },
+  "doc_08.pdf": {
+    "url": null,
+    "category": "earlier scrape",
+    "title": "EMP-GEN-02-G01 - A Guide to the Employer Reconciliation Process - External Guide",
+    "pages": 89,
+    "usable": true
+  },
+  "doc_09.pdf": {
+    "url": null,
+    "category": "earlier scrape",
+    "title": "EMP-REG-03-G01 - Guide for completion of Employer Registration application - External Guide",
+    "pages": 17,
+    "usable": true
+  },
+  "doc_10.pdf": {
+    "url": null,
+    "category": "earlier scrape",
+    "title": "GEN-AU-14-G01 - Access to audit files - External Guide",
+    "pages": 8,
+    "usable": true
+  },
+  "doc_11.pdf": {
+    "url": null,
+    "category": "earlier scrape",
+    "title": "GEN-ELEC-04-G01 - Guide to completing the Value Added Tax VAT201 Declaration - External Guide",
+    "pages": 49,
+    "usable": true
+  },
+  "doc_12.pdf": {
+    "url": null,
+    "category": "earlier scrape",
+    "title": "GEN-ELEC-18-G01 - How to Register for eFiling and Manage Your User Profile - External Guide",
+    "pages": 53,
+    "usable": true
+  },
+  "LAPD-IT-G24-Guide-on-Mutual-Agreement-Procedures.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/LAPD-IT-G24-Guide-on-Mutual-Agreement-Procedures.pdf",
+    "category": "value-added-tax",
+    "title": "LAPD IT G24 Guide on Mutual Agreement Procedures",
+    "pages": 31
+  },
+  "Legal-Pub-Guide-IT07-Guide-on-the-Determination-of-Medical-Tax-Credits.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/Legal-Pub-Guide-IT07-Guide-on-the-Determination-of-Medical-Tax-Credits.pdf",
+    "category": "personal-income-tax",
+    "title": "Legal Pub Guide IT07 Guide on the Determination of Medical Tax Credits",
+    "pages": 51
+  },
+  "PAYE-AE-06-G06-Guide-for-Codes-Applicable-to-Employees-Tax-Certificates-2027-External-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/PAYE-AE-06-G06-Guide-for-Codes-Applicable-to-Employees-Tax-Certificates-2027-External-Guide.pdf",
+    "category": "pay-as-you-earn",
+    "title": "PAYE AE 06 G06 Guide for Codes Applicable to Employees Tax Certificates 2027 External Guide",
+    "pages": 27
+  },
+  "IT-ELEC-03-G01-Guide-to-complete-the-Company-Income-Tax-Return-ITR14-eFiling-External-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/IT-ELEC-03-G01-Guide-to-complete-the-Company-Income-Tax-Return-ITR14-eFiling-External-Guide.pdf",
+    "category": "corporate-income-tax",
+    "title": "IT ELEC 03 G01 Guide to complete the Company Income Tax Return ITR14 eFiling External Guide",
+    "pages": 51
+  },
+  "TD-AE-02-G02-Guide-for-Transfer-Duty-via-eFiling-External-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/TD-AE-02-G02-Guide-for-Transfer-Duty-via-eFiling-External-Guide.pdf",
+    "category": "transfer-duty",
+    "title": "TD AE 02 G02 Guide for Transfer Duty via eFiling External Guide",
+    "pages": 72
+  },
+  "Dividends-Tax-Trade-Testing-Interpretation-notes-v05.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Docs/3rdParty/Dividends-Tax-Trade-Testing-Interpretation-notes-v05.pdf",
+    "category": "dividends-tax",
+    "title": "Dividends Tax Trade Testing Interpretation notes v05",
+    "pages": 10
+  },
+  "VAT-REG-02-G02-Supply-of-Electronic-Services-by-Foreign-Suppliers-and-Foreign-Intermediaries-External-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/VAT-REG-02-G02-Supply-of-Electronic-Services-by-Foreign-Suppliers-and-Foreign-Intermediaries-External-Guide.pdf",
+    "category": "value-added-tax",
+    "title": "VAT REG 02 G02 Supply of Electronic Services by Foreign Suppliers and Foreign Intermediaries External Guide",
+    "pages": 17
+  },
+  "PAYE-AE-06-G07-Guide-for-Validation-Rules-Applicable-to-Reconciliation-Declarations-2027-External-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/PAYE-AE-06-G07-Guide-for-Validation-Rules-Applicable-to-Reconciliation-Declarations-2027-External-Guide.pdf",
+    "category": "pay-as-you-earn",
+    "title": "PAYE AE 06 G07 Guide for Validation Rules Applicable to Reconciliation Declarations 2027 External Guide",
+    "pages": 9
+  },
+  "GEN-GEN-56-G02-Submit-Request-for-Reduced-Assessment-RRA02-via-eFiling-for-Company-or-Trust-External-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/GEN-GEN-56-G02-Submit-Request-for-Reduced-Assessment-RRA02-via-eFiling-for-Company-or-Trust-External-Guide.pdf",
+    "category": "corporate-income-tax",
+    "title": "GEN GEN 56 G02 Submit Request for Reduced Assessment RRA02 via eFiling for Company or Trust External Guide",
+    "pages": 11
+  },
+  "IT-AE-36-G02-Comprehensive-Guide-to-the-Income-Tax-return-for-Trusts-External-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/IT-AE-36-G02-Comprehensive-Guide-to-the-Income-Tax-return-for-Trusts-External-Guide.pdf",
+    "category": "capital-gains-tax",
+    "title": "IT AE 36 G02 Comprehensive Guide to the Income Tax return for Trusts External Guide",
+    "pages": 74
+  },
+  "IT-GEN-06-G01-Guide-to-the-Individual-ITR12-Return-for-Deceased-and-Insolvent-Estates-External-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/IT-GEN-06-G01-Guide-to-the-Individual-ITR12-Return-for-Deceased-and-Insolvent-Estates-External-Guide.pdf",
+    "category": "estate-duty",
+    "title": "IT GEN 06 G01 Guide to the Individual ITR12 Return for Deceased and Insolvent Estates External Guide",
+    "pages": 55
+  },
+  "Legal-Pub-Guide-Gen09-Tax-Guide-for-Small-Businesses.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/Legal-Pub-Guide-Gen09-Tax-Guide-for-Small-Businesses.pdf",
+    "category": "turnover-tax",
+    "title": "Legal Pub Guide Gen09 Tax Guide for Small Businesses",
+    "pages": 114
+  },
+  "Legal-Pub-Guide-Gen02-Guide-for-Tax-Rates-Duties-Levies.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/Legal-Pub-Guide-Gen02-Guide-for-Tax-Rates-Duties-Levies.pdf",
+    "category": "value-added-tax",
+    "title": "Legal Pub Guide Gen02 Guide for Tax Rates Duties Levies",
+    "pages": 80
+  },
+  "GEN-PT-01-G01-Guide-for-Provisional-Tax-External-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/GEN-PT-01-G01-Guide-for-Provisional-Tax-External-Guide.pdf",
+    "category": "personal-income-tax",
+    "title": "GEN PT 01 G01 Guide for Provisional Tax External Guide",
+    "pages": 22
+  },
+  "PAYE-AE-06-G08-Guide-for-Completion-and-Submission-of-Employees-Tax-Certificates-2027-External-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/PAYE-AE-06-G08-Guide-for-Completion-and-Submission-of-Employees-Tax-Certificates-2027-External-Guide.pdf",
+    "category": "pay-as-you-earn",
+    "title": "PAYE AE 06 G08 Guide for Completion and Submission of Employees Tax Certificates 2027 External Guide",
+    "pages": 10
+  },
+  "IT-GEN-04-G01-How-to-complete-the-Income-Tax-Return-ITR14-for-Companies-External-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/IT-GEN-04-G01-How-to-complete-the-Income-Tax-Return-ITR14-for-Companies-External-Guide.pdf",
+    "category": "corporate-income-tax",
+    "title": "IT GEN 04 G01 How to complete the Income Tax Return ITR14 for Companies External Guide",
+    "pages": 174
+  },
+  "Legal-Pub-Guide-IT11-Tax-guide-for-share-owners.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/Legal-Pub-Guide-IT11-Tax-guide-for-share-owners.pdf",
+    "category": "capital-gains-tax",
+    "title": "Legal Pub Guide IT11 Tax guide for share owners",
+    "pages": 58
+  },
+  "Turnover-Tax-Leaflet.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Turnover-Tax-Leaflet.pdf",
+    "category": "turnover-tax",
+    "title": "Turnover Tax Leaflet",
+    "pages": 4
+  },
+  "GEN-ENR-01-G01-Guide-for-the-submission-of-third-party-data-using-the-connect-direct-channel-External-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/GEN-ENR-01-G01-Guide-for-the-submission-of-third-party-data-using-the-connect-direct-channel-External-Guide.pdf",
+    "category": "value-added-tax",
+    "title": "GEN ENR 01 G01 Guide for the submission of third party data using the connect direct channel External Guide",
+    "pages": 33
+  },
+  "LAPD-IT-G31-FAQs-on-Deceased-Estates.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/LAPD-IT-G31-FAQs-on-Deceased-Estates.pdf",
+    "category": "estate-duty",
+    "title": "LAPD IT G31 FAQs on Deceased Estates",
+    "pages": 25
+  },
+  "IT-PP-02-G01-Amounts-to-be-Withheld-When-a-Non-Resident-Sells-Immovable-Property-in-South-AfricaSA-External-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/IT-PP-02-G01-Amounts-to-be-Withheld-When-a-Non-Resident-Sells-Immovable-Property-in-South-AfricaSA-External-Guide.pdf",
+    "category": "transfer-duty",
+    "title": "IT PP 02 G01 Amounts to be Withheld When a Non Resident Sells Immovable Property in South AfricaSA External Guide",
+    "pages": 20
+  },
+  "GEN-ENR-01-G02-Guide-for-Submission-of-Third-Party-Data-Using-the-HTTPS-Channel-External-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/GEN-ENR-01-G02-Guide-for-Submission-of-Third-Party-Data-Using-the-HTTPS-Channel-External-Guide.pdf",
+    "category": "value-added-tax",
+    "title": "GEN ENR 01 G02 Guide for Submission of Third Party Data Using the HTTPS Channel External Guide",
+    "pages": 35
+  },
+  "Legal-Pub-Guide-TAdm06-Quick-Guide-on-Alternative-Dispute-Resolution.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/Legal-Pub-Guide-TAdm06-Quick-Guide-on-Alternative-Dispute-Resolution.pdf",
+    "category": "personal-income-tax",
+    "title": "Legal Pub Guide TAdm06 Quick Guide on Alternative Dispute Resolution",
+    "pages": 9
+  },
+  "PAYE-easyFileG01-e-syfile-TC-Employer-Guide-External-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/PAYE-easyFileG01-e@syfile%E2%84%A2TC-Employer-Guide-External-Guide.pdf",
+    "category": "pay-as-you-earn",
+    "title": "PAYE easyFileG01 e@syfile\u2122TC Employer Guide External Guide",
+    "pages": 69
+  },
+  "Legal-Pub-Guide-ETI01-Guide-to-the-Employment-Tax-Incentive.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/Legal-Pub-Guide-ETI01-Guide-to-the-Employment-Tax-Incentive.pdf",
+    "category": "corporate-income-tax",
+    "title": "Legal Pub Guide ETI01 Guide to the Employment Tax Incentive",
+    "pages": 59
+  },
+  "LAPD-IT-G19-Comprehensive-Guide-to-Dividends-Tax.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/LAPD-IT-G19-Comprehensive-Guide-to-Dividends-Tax.pdf",
+    "category": "donations-tax",
+    "title": "LAPD IT G19 Comprehensive Guide to Dividends Tax",
+    "pages": 201
+  },
+  "Legal-Pub-Guide-TD01-Transfer-Duty-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/Legal-Pub-Guide-TD01-Transfer-Duty-Guide.pdf",
+    "category": "transfer-duty",
+    "title": "Legal Pub Guide TD01 Transfer Duty Guide",
+    "pages": 120
+  },
+  "Legal-Pub-Guide-TT01-Tax-Guide-for-Micro-Businesses.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/Legal-Pub-Guide-TT01-Tax-Guide-for-Micro-Businesses.pdf",
+    "category": "turnover-tax",
+    "title": "Legal Pub Guide TT01 Tax Guide for Micro Businesses",
+    "pages": 43
+  },
+  "Legal-Pub-Guide-VAT420-VAT-420-Guide-for-Motor-Dealers.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/Legal-Pub-Guide-VAT420-VAT-420-Guide-for-Motor-Dealers.pdf",
+    "category": "value-added-tax",
+    "title": "Legal Pub Guide VAT420 VAT 420 Guide for Motor Dealers",
+    "pages": 61
+  },
+  "IT-AE-36-G06-Guide-to-submit-your-individual-income-tax-return-via-eFiling-External-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/IT-AE-36-G06-Guide-to-submit-your-individual-income-tax-return-via-eFiling-External-Guide.pdf",
+    "category": "personal-income-tax",
+    "title": "IT AE 36 G06 Guide to submit your individual income tax return via eFiling External Guide",
+    "pages": 69
+  },
+  "Legal-Pub-Guide-IT12-Guide-to-the-Urban-Development-Zone-Allowance.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/Legal-Pub-Guide-IT12-Guide-to-the-Urban-Development-Zone-Allowance.pdf",
+    "category": "capital-gains-tax",
+    "title": "Legal Pub Guide IT12 Guide to the Urban Development Zone Allowance",
+    "pages": 45
+  },
+  "LAPD-Gen-G08-Guide-on-the-Taxation-of-Professional-Sports-Clubs-and-Players.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/LAPD-Gen-G08-Guide-on-the-Taxation-of-Professional-Sports-Clubs-and-Players.pdf",
+    "category": "donations-tax",
+    "title": "LAPD Gen G08 Guide on the Taxation of Professional Sports Clubs and Players",
+    "pages": 68
+  },
+  "LAPD-IT-G32-FAQs-on-Insolvent-Estates-of-Individuals.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/LAPD-IT-G32-FAQs-on-Insolvent-Estates-of-Individuals.pdf",
+    "category": "estate-duty",
+    "title": "LAPD IT G32 FAQs on Insolvent Estates of Individuals",
+    "pages": 11
+  },
+  "Legal-Pub-FAQs-TT01-FAQs-on-Turnover-Tax.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/Legal-Pub-FAQs-TT01-FAQs-on-Turnover-Tax.pdf",
+    "category": "turnover-tax",
+    "title": "Legal Pub FAQs TT01 FAQs on Turnover Tax",
+    "pages": 17
+  },
+  "IT-AE-36-G05-Comprehensive-Guide-to-the-ITR12-Income-Tax-Return-for-Individuals-External-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/IT-AE-36-G05-Comprehensive-Guide-to-the-ITR12-Income-Tax-Return-for-Individuals-External-Guide.pdf",
+    "category": "personal-income-tax",
+    "title": "IT AE 36 G05 Comprehensive Guide to the ITR12 Income Tax Return for Individuals External Guide",
+    "pages": 144
+  },
+  "Legal-Pub-Guide-CGT03-ABC-Guide-on-CGT-for-Companies.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/Legal-Pub-Guide-CGT03-ABC-Guide-on-CGT-for-Companies.pdf",
+    "category": "capital-gains-tax",
+    "title": "Legal Pub Guide CGT03 ABC Guide on CGT for Companies",
+    "pages": 18
+  },
+  "LAPD-VAT-G06-VAT-413-Guide-for-Estates.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/LAPD-VAT-G06-VAT-413-Guide-for-Estates.pdf",
+    "category": "estate-duty",
+    "title": "LAPD VAT G06 VAT 413 Guide for Estates",
+    "pages": 54
+  },
+  "LAPD-IT-G20-Guide-to-the-Taxation-of-Special-Trusts.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/LAPD-IT-G20-Guide-to-the-Taxation-of-Special-Trusts.pdf",
+    "category": "transfer-duty",
+    "title": "LAPD IT G20 Guide to the Taxation of Special Trusts",
+    "pages": 50
+  },
+  "TT-GEN-01-G01-Administration-of-Turnover-Tax-External-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/TT-GEN-01-G01-Administration-of-Turnover-Tax-External-Guide.pdf",
+    "category": "turnover-tax",
+    "title": "TT GEN 01 G01 Administration of Turnover Tax External Guide",
+    "pages": 38
+  },
+  "Legal-Pub-FAQs-VAT02-FAQs-VAT-on-Supplies-of-Electronic-Services.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/Legal-Pub-FAQs-VAT02-FAQs-VAT-on-Supplies-of-Electronic-Services.pdf",
+    "category": "value-added-tax",
+    "title": "Legal Pub FAQs VAT02 FAQs VAT on Supplies of Electronic Services",
+    "pages": 41
+  },
+  "GEN-GEN-56-G01-Submit-Request-for-Reduced-Assessment-RRA01-via-eFiling-for-Individuals-External-Guide.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/GEN-GEN-56-G01-Submit-Request-for-Reduced-Assessment-RRA01-via-eFiling-for-Individuals-External-Guide.pdf",
+    "category": "personal-income-tax",
+    "title": "GEN GEN 56 G01 Submit Request for Reduced Assessment RRA01 via eFiling for Individuals External Guide",
+    "pages": 12
+  },
+  "Legal-Pub-Guide-IT26-Tax-Exemption-Guide-for-Public-Benefit-Organisations-in-South-Africa.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/Legal-Pub-Guide-IT26-Tax-Exemption-Guide-for-Public-Benefit-Organisations-in-South-Africa.pdf",
+    "category": "corporate-income-tax",
+    "title": "Legal Pub Guide IT26 Tax Exemption Guide for Public Benefit Organisations in South Africa",
+    "pages": 138
+  },
+  "Legal-Pub-Guide-CGT02-ABC-Guide-on-CGT-for-Individuals.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/Legal-Pub-Guide-CGT02-ABC-Guide-on-CGT-for-Individuals.pdf",
+    "category": "capital-gains-tax",
+    "title": "Legal Pub Guide CGT02 ABC Guide on CGT for Individuals",
+    "pages": 17
+  },
+  "Legal-Pub-Guide-VAT15-VAT-Quick-Reference-Guide-for-Non-Executive-Directors.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/Legal-Pub-Guide-VAT15-VAT-Quick-Reference-Guide-for-Non-Executive-Directors.pdf",
+    "category": "turnover-tax",
+    "title": "Legal Pub Guide VAT15 VAT Quick Reference Guide for Non Executive Directors",
+    "pages": 28
+  },
+  "LAPD-VAT-G16-VAT-FAQs-Supplies-of-electronic-services.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/LAPD-VAT-G16-VAT-FAQs-Supplies-of-electronic-services.pdf",
+    "category": "value-added-tax",
+    "title": "LAPD VAT G16 VAT FAQs Supplies of electronic services",
+    "pages": 41
+  },
+  "Legal-Pub-Guide-IT36-Guide-to-Section-18A-Approval-of-a-Department-in-the-National-Provincial-and-Local-Sphere-of-Government.pdf": {
+    "url": "https://www.sars.gov.za/wp-content/uploads/Ops/Guides/Legal-Pub-Guide-IT36-Guide-to-Section-18A-Approval-of-a-Department-in-the-National-Provincial-and-Local-Sphere-of-Government.pdf",
+    "category": "corporate-income-tax",
+    "title": "Legal Pub Guide IT36 Guide to Section 18A Approval of a Department in the National Provincial and Local Sphere of Government",
+    "pages": 49
+  }
+}

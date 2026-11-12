@@ -93,6 +93,11 @@ def cmd_plot(args) -> None:
     run(args.k_min, args.k_max, args.perplexity)
 
 
+def cmd_figures(args) -> None:
+    from .figures import run
+    run()
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(prog="sarsvdb", description="SARS vector database")
     sub = ap.add_subparsers(dest="command", required=True)
@@ -117,6 +122,9 @@ def main() -> None:
     p.add_argument("--k-max", type=int, default=25)
     p.add_argument("--perplexity", type=float, default=30.0)
     p.set_defaults(func=cmd_plot)
+
+    f = sub.add_parser("figures", help="static guide network and 3D t-SNE images")
+    f.set_defaults(func=cmd_figures)
 
     args = ap.parse_args()
     args.func(args)

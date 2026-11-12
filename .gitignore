@@ -1,9 +1,11 @@
 __pycache__/
 *.pyc
 
-# Downloaded PDFs and everything built from them
+# Everything built from the PDFs; the PDFs, their source list and the test questions are kept
 data/*
+!data/pdfs/
+!data/manifest.json
 !data/eval_questions.json
 
-# Generated reports and plot
+# Generated reports and interactive plot
 reports/
