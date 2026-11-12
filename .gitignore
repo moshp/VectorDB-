@@ -1,11 +1,17 @@
 __pycache__/
 *.pyc
 
-# Everything built from the PDFs; the PDFs, their source list and the test questions are kept
+# Llama model (2 GB); downloaded automatically on first run
+models/
+
+# Databases, uploads and logs built at run time; the PDFs, their source list,
+# the test questions and the topic names are kept
 data/*
 !data/pdfs/
 !data/manifest.json
 !data/eval_questions.json
+!data/topic_names.json
 
-# Generated reports and interactive plot
-reports/
+# Generated outputs; the written evaluation reports are kept
+reports/*
+!reports/*.md

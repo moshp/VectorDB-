@@ -1,0 +1,19 @@
+[
+  {"terms": ["return", "information", "assessment", "website", "contact"], "name": "Filing returns and registration"},
+  {"terms": ["dividend", "dividends", "company", "paid", "specie"], "name": "Dividends tax"},
+  {"terms": ["field", "year", "assessment", "onwards", "foreign"], "name": "Return fields by tax year"},
+  {"terms": ["vat", "supply", "services", "supplies", "motor"], "name": "VAT"},
+  {"terms": ["capital", "shares", "company", "gain", "asset"], "name": "Shares and capital gains"},
+  {"terms": ["pbo", "organisation", "public", "approved", "commissioner"], "name": "Public benefit organisations"},
+  {"terms": ["government", "company", "public", "defined", "dictionary"], "name": "Legal definitions"},
+  {"terms": ["company", "number", "selected", "displayed", "yes"], "name": "Company return (ITR14) questions"},
+  {"terms": ["taxable income", "year", "assessment", "rate", "lump"], "name": "Tax rates and tables"},
+  {"terms": ["click", "efiling", "data", "select", "details"], "name": "eFiling steps"},
+  {"terms": ["trust", "estate", "deceased", "insolvent", "beneficiary"], "name": "Trusts and estates"},
+  {"terms": ["property", "duty", "transfer", "value", "acquisition"], "name": "Transfer duty"},
+  {"terms": ["employee", "employer", "eti", "remuneration", "code"], "name": "Employees and the ETI"},
+  {"terms": ["foreign", "income", "resident", "rebate", "outside"], "name": "Foreign income and residence"},
+  {"terms": ["building", "cost", "allowance", "taxpayer", "deduction"], "name": "Building allowances"},
+  {"terms": ["club", "player", "services", "players", "benefit"], "name": "Sports clubs and players"},
+  {"terms": ["medical", "scheme", "expenses", "paid", "contributions"], "name": "Medical tax credits"}
+]

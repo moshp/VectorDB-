@@ -123,7 +123,7 @@ tr:last-child td { border-bottom: none; }
     <h2 id="table-title">Topics as a table</h2>
     <div class="table-scroll">
       <table>
-        <thead><tr><th>#</th><th>Topic (most distinctive words)</th><th>Passages</th><th>Main guides</th></tr></thead>
+        <thead><tr><th>#</th><th>Topic</th><th>Key terms</th><th>Passages</th><th>Main guides</th></tr></thead>
         <tbody id="topic-rows"></tbody>
       </table>
     </div>
@@ -231,23 +231,24 @@ function renderLists() {
       <span class="label">${esc(tp.label)}</span><span class="count">${fmt(tp.size)}</span>
     </button></li>`).join("");
   document.getElementById("topic-rows").innerHTML = DATA.topics.map((tp, t) => `
-    <tr><td class="n">${t + 1}</td><td>${esc(tp.label)}</td><td class="n">${fmt(tp.size)}</td>
+    <tr><td class="n">${t + 1}</td><td>${esc(tp.label)}</td><td class="docs">${esc(tp.terms.join(", "))}</td><td class="n">${fmt(tp.size)}</td>
       <td class="docs">${tp.top_docs.map(([d, n]) => `${esc(d)} (${fmt(n)})`).join("; ")}</td></tr>`).join("");
   document.querySelectorAll(".topic").forEach((b) => b.addEventListener("click", () => select(Number(b.dataset.t))));
 }
 
 document.getElementById("figures").innerHTML = [
   [fmt(DATA.n_points), "passages"], [fmt(DATA.n_docs), "SARS guides"], [fmt(DATA.k), "topics"],
-  ["384 → 3", "dimensions"],
+  [`${DATA.dim} → 3`, "dimensions"],
 ].map(([v, l]) => `<li><b>${v}</b><span>${l}</span></li>`).join("");
 
 const best = DATA.silhouette[DATA.k];
 const range = Object.keys(DATA.silhouette).map(Number);
 document.getElementById("method").textContent =
-  `Passages were embedded with all-MiniLM-L6-v2 and grouped with k-means. The number of topics, ${DATA.k}, ` +
+  `Passages were embedded with ${DATA.model.split("/").pop()} and grouped with k-means. The number of topics, ${DATA.k}, ` +
   `had the highest silhouette score (${best.toFixed(3)}) of all values tried from ${Math.min(...range)} to ${Math.max(...range)}. ` +
   `Scores were low and close together across that range, so topics overlap rather than forming separate islands. ` +
-  `Topic names are each group's most distinctive words. The 3D layout is t-SNE with perplexity ${DATA.perplexity}.`;
+  `Each topic was named by reading its key terms (words and phrases common in that topic but rare elsewhere) ` +
+  `and the passages closest to its centre. The 3D layout is t-SNE with perplexity ${DATA.perplexity}.`;
 
 document.getElementById("show-all").addEventListener("click", () => select(selected));
 renderLists();

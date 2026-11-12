@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Document Q&amp;A</title>
+<style>
+/* Layout: a documents column (upload + library) beside the question-and-answer column; one column on phones. */
+:root {
+  --bg: #f4f6f8;
+  --surface: #ffffff;
+  --ink: #15191f;
+  --ink-2: #4a525d;
+  --ink-3: #747d89;
+  --rule: #dce1e7;
+  --accent: #1d5fb8;
+  --accent-ink: #ffffff;
+  --accent-soft: #e6eefa;
+  --good: #1f7a3d;
+  --warn: #9a6200;
+  --bad: #b3261e;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111418; --surface: #1a1e24; --ink: #eceff3; --ink-2: #b7bec8; --ink-3: #8a929d;
+    --rule: #2c323b; --accent: #78aef0; --accent-ink: #0d1b2e; --accent-soft: #1b2b40;
+    --good: #6fcf8f; --warn: #e3b25a; --bad: #f08a83;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--font-body); }
+header { background: var(--surface); border-bottom: 1px solid var(--rule); }
+.bar { max-width: 1200px; margin: 0 auto; padding: 14px 16px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.bar h1 { margin: 0; font-size: 18px; font-weight: 650; }
+.bar p { margin: 0; color: var(--ink-3); font-size: 13px; }
+main { max-width: 1200px; margin: 0 auto; padding: 20px 16px 48px; display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 860px) { main { grid-template-columns: minmax(0, 1fr); } }
+section.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; display: grid; gap: 14px; min-width: 0; }
+h2 { margin: 0; font-size: 15px; font-weight: 650; }
+.hint { margin: 0; color: var(--ink-3); font-size: 13px; }
+button { font: inherit; cursor: pointer; }
+.btn { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 7px; padding: 9px 16px; font-weight: 600; }
+.btn:disabled { opacity: .55; cursor: default; }
+.btn-quiet { background: none; border: 1px solid var(--rule); color: var(--ink-2); border-radius: 6px; padding: 4px 9px; font-size: 13px; }
+.btn-danger { background: var(--bad); color: #fff; border: 0; border-radius: 6px; padding: 4px 9px; font-size: 13px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.drop { border: 1.5px dashed var(--rule); border-radius: 8px; padding: 18px; text-align: center; display: grid; gap: 6px; justify-items: center; }
+.drop.over { border-color: var(--accent); background: var(--accent-soft); }
+.drop strong { font-weight: 600; }
+.drop input { display: none; }
+
+.jobs, .docs { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.job { border: 1px solid var(--rule); border-radius: 8px; padding: 9px 11px; display: grid; gap: 6px; font-size: 13px; }
+.job .name, .doc .name { font-weight: 600; overflow-wrap: anywhere; }
+.job .stage { color: var(--ink-3); }
+.job.error .stage { color: var(--bad); }
+.job.dup .stage { color: var(--warn); }
+.job.ok .stage { color: var(--good); }
+.meter { height: 4px; background: var(--rule); border-radius: 2px; overflow: hidden; }
+.meter span { display: block; height: 100%; background: var(--accent); width: 0; transition: width .3s; }
+
+.doc { border-top: 1px solid var(--rule); padding-top: 9px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 10px; align-items: start; }
+.doc:first-child { border-top: 0; padding-top: 0; }
+.doc .meta { grid-column: 1; color: var(--ink-3); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.doc .actions { grid-row: 1 / span 2; grid-column: 2; display: flex; gap: 6px; align-items: center; }
+.doc .confirm { font-size: 12.5px; color: var(--ink-2); }
+.chip { display: inline-block; border: 1px solid var(--rule); border-radius: 999px; padding: 0 7px; font-size: 11.5px; color: var(--ink-2); margin-left: 4px; }
+.empty { color: var(--ink-3); font-size: 13.5px; margin: 0; }
+
+form.ask { display: grid; gap: 8px; }
+label { font-weight: 600; font-size: 14px; }
+textarea { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; resize: vertical; min-height: 72px; width: 100%; }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.status { color: var(--ink-3); font-size: 13px; font-variant-numeric: tabular-nums; }
+
+.answer { border-left: 3px solid var(--accent); padding: 4px 0 4px 14px; display: grid; gap: 8px; }
+.answer.none { border-left-color: var(--warn); }
+.answer p { margin: 0; font-size: 16px; line-height: 1.6; max-width: 72ch; }
+.cite { font: 600 12px/1 var(--font-mono); background: var(--accent-soft); color: var(--accent); border: 0; border-radius: 4px; padding: 3px 5px; margin: 0 1px; vertical-align: 1px; }
+.timing { color: var(--ink-3); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.sources { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.source { border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; display: grid; gap: 6px; }
+.source.cited { border-color: var(--accent); }
+.source.flash { box-shadow: 0 0 0 3px var(--accent-soft); }
+.source header { background: none; border: 0; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; font-size: 13px; }
+.source .n { font: 600 12px/1 var(--font-mono); color: var(--accent); }
+.source .title { font-weight: 600; overflow-wrap: anywhere; }
+.source .page { color: var(--ink-3); }
+.source a { color: var(--accent); font-size: 13px; }
+.source blockquote { margin: 0; color: var(--ink-2); font-size: 13.5px; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 9.5em; overflow: auto; }
+@media (prefers-reduced-motion: reduce) { .meter span { transition: none; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1>Document Q&amp;A</h1>
+    <p>Answers come only from the documents you upload, with the page each fact came from.</p>
+  </div>
+</header>
+
+<main>
+  <section class="panel" aria-labelledby="docs-title">
+    <h2 id="docs-title">Documents</h2>
+    <div class="drop" id="drop">
+      <strong>Drop PDFs or images here</strong>
+      <span class="hint">Scanned pages and images are read with OCR. Up to 50 MB per file.</span>
+      <button type="button" class="btn" id="pick">Choose files</button>
+      <input type="file" id="file" multiple accept=".pdf,.png,.jpg,.jpeg,.tif,.tiff,.bmp,.webp">
+    </div>
+    <ul class="jobs" id="jobs" aria-live="polite"></ul>
+    <ul class="docs" id="docs"></ul>
+  </section>
+
+  <section class="panel" aria-labelledby="ask-title">
+    <h2 id="ask-title">Ask a question</h2>
+    <form class="ask" id="ask">
+      <label for="question">Question</label>
+      <textarea id="question" name="question" placeholder="e.g. When is the first provisional tax payment due?" required></textarea>
+      <div class="row">
+        <button type="submit" class="btn" id="ask-btn">Ask</button>
+        <span class="status" id="ask-status" role="status"></span>
+      </div>
+    </form>
+    <div id="result" hidden></div>
+  </section>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const plural = (n, word) => `${n.toLocaleString()} ${word}${n === 1 ? "" : "s"}`;
+const pages = (a, b) => (a === b ? `p. ${a}` : `pp. ${a}–${b}`);
+
+async function api(path, options) {
+  const res = await fetch(path, options);
+  if (!res.ok) {
+    let detail = res.statusText;
+    try { const body = await res.json(); detail = typeof body.detail === "string" ? body.detail : JSON.stringify(body.detail); } catch {}
+    throw new Error(detail);
+  }
+  return res.json();
+}
+
+/* ---------- Documents ---------- */
+let pendingDelete = null;
+
+async function loadDocs() {
+  const docs = await api("/api/documents");
+  const list = $("docs");
+  if (!docs.length) {
+    list.innerHTML = `<li><p class="empty">No documents yet. Upload a PDF or image to start asking questions.</p></li>`;
+    return;
+  }
+  list.innerHTML = docs.map((d) => {
+    const ocr = d.ocr_pages.length ? `<span class="chip">OCR: ${plural(d.ocr_pages.length, "page")}</span>` : "";
+    const actions = pendingDelete === d.doc
+      ? `<span class="confirm">Delete this document?</span>
+         <button type="button" class="btn-danger" data-confirm="${esc(d.doc)}">Delete</button>
+         <button type="button" class="btn-quiet" data-cancel>Keep</button>`
+      : `<button type="button" class="btn-quiet" data-delete="${esc(d.doc)}" aria-label="Delete ${esc(d.title)}">Delete</button>`;
+    return `<li class="doc">
+      <span class="name">${esc(d.title)}</span>
+      <span class="actions">${actions}</span>
+      <span class="meta">${plural(d.pages, "page")} · ${plural(d.chunks, "chunk")} ${ocr}</span>
+    </li>`;
+  }).join("");
+}
+
+$("docs").addEventListener("click", async (e) => {
+  const del = e.target.closest("[data-delete]");
+  const confirm = e.target.closest("[data-confirm]");
+  if (del) { pendingDelete = del.dataset.delete; loadDocs(); }
+  else if (e.target.closest("[data-cancel]")) { pendingDelete = null; loadDocs(); }
+  else if (confirm) {
+    pendingDelete = null;
+    try { await api(`/api/documents/${encodeURIComponent(confirm.dataset.confirm)}`, { method: "DELETE" }); }
+    catch (err) { alertJob(`Couldn't delete: ${err.message}`); }
+    loadDocs();
+  }
+});
+
+/* ---------- Uploads ---------- */
+function jobCard(job) {
+  const li = document.createElement("li");
+  li.className = "job";
+  li.innerHTML = `<span class="name">${esc(job.filename)}</span><span class="stage"></span><div class="meter"><span></span></div>`;
+  $("jobs").prepend(li);
+  return li;
+}
+
+function renderJob(li, job) {
+  const stage = li.querySelector(".stage");
+  li.querySelector(".meter span").style.width = `${Math.round((job.progress || 0) * 100)}%`;
+  li.classList.remove("ok", "dup", "error");
+  if (job.status === "error") {
+    li.classList.add("error");
+    stage.textContent = `Couldn't add this file: ${job.error}`;
+    li.querySelector(".meter").hidden = true;
+  } else if (job.status === "done") {
+    const r = job.result;
+    li.querySelector(".meter").hidden = true;
+    if (r.status === "added") {
+      li.classList.add("ok");
+      const ocr = r.ocr_pages.length ? `, ${plural(r.ocr_pages.length, "page")} read with OCR` : "";
+      stage.textContent = `Added: ${plural(r.pages, "page")}, ${plural(r.chunks, "chunk")}${ocr}.`;
+    } else if (r.status === "duplicate") {
+      li.classList.add("dup");
+      stage.textContent = `Already in your documents as “${r.title}”, so it was skipped.`;
+    } else {
+      li.classList.add("error");
+      stage.textContent = r.message;
+    }
+  } else {
+    stage.textContent = job.stage;
+  }
+}
+
+function alertJob(message) {
+  renderJob(jobCard({ filename: "Documents" }), { status: "error", error: message });
+}
+
+async function upload(files) {
+  if (!files.length) return;
+  const form = new FormData();
+  for (const f of files) form.append("files", f);
+  let created;
+  try { created = await api("/api/documents", { method: "POST", body: form }); }
+  catch (err) { alertJob(`Upload failed: ${err.message}`); return; }
+  for (const job of created) {
+    const li = jobCard(job);
+    renderJob(li, job);
+    if (job.id) poll(job.id, li);
+  }
+}
+
+async function poll(id, li) {
+  try {
+    const job = await api(`/api/jobs/${id}`);
+    renderJob(li, job);
+    if (job.status === "done" || job.status === "error") { loadDocs(); return; }
+  } catch (err) {
+    renderJob(li, { status: "error", error: err.message });
+    return;
+  }
+  setTimeout(() => poll(id, li), 700);
+}
+
+const drop = $("drop");
+$("pick").addEventListener("click", () => $("file").click());
+$("file").addEventListener("change", (e) => { upload([...e.target.files]); e.target.value = ""; });
+["dragenter", "dragover"].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.add("over"); }));
+["dragleave", "drop"].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.remove("over"); }));
+drop.addEventListener("drop", (e) => upload([...e.dataTransfer.files]));
+
+/* ---------- Questions ---------- */
+let ticker = null;
+
+$("ask").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const question = $("question").value.trim();
+  if (question.length < 3) { $("ask-status").textContent = "Type a question of at least 3 characters."; return; }
+  $("ask-btn").disabled = true;
+  const start = performance.now();
+  const tick = () => { $("ask-status").textContent = `Searching your documents and writing an answer… ${Math.round((performance.now() - start) / 1000)} s`; };
+  tick(); ticker = setInterval(tick, 1000);
+  try {
+    renderAnswer(await api("/api/ask", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question }) }));
+    $("ask-status").textContent = "";
+  } catch (err) {
+    $("ask-status").textContent = `Couldn't get an answer: ${err.message}. Try again.`;
+  } finally {
+    clearInterval(ticker);
+    $("ask-btn").disabled = false;
+  }
+});
+
+$("question").addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) $("ask").requestSubmit();
+});
+
+function renderAnswer(r) {
+  const cited = new Set(r.citations);
+  const text = esc(r.answer).replace(/\[(\d+(?:\s*,\s*\d+)*)\]/g, (m, group) =>
+    group.split(",").map((n) => n.trim()).map((n) =>
+      cited.has(Number(n)) ? `<button type="button" class="cite" data-n="${n}" aria-label="Show source ${n}">${n}</button>` : `[${n}]`
+    ).join(""));
+  const t = r.timings || {};
+  const secs = ((t.retrieve_ms || 0) + (t.rerank_ms || 0) + (t.generate_ms || 0)) / 1000;
+  const sources = r.passages.map((p) => `
+    <li class="source${cited.has(p.n) ? " cited" : ""}" id="src-${p.n}">
+      <header><span class="n">[${p.n}]</span><span class="title">${esc(p.title)}</span><span class="page">${pages(p.page_start, p.page_end)}</span>
+        <a href="/files/${encodeURIComponent(p.doc)}#page=${p.page_start}" target="_blank" rel="noopener">Open page</a></header>
+      <blockquote>${esc(p.text)}</blockquote>
+    </li>`).join("");
+  const heading = r.abstained ? "Passages searched" : "Sources";
+  $("result").innerHTML = `
+    <div class="answer${r.abstained ? " none" : ""}"><p>${text}</p>
+      <span class="timing">${secs ? `Answered in ${secs.toFixed(1)} s` : ""}</span></div>
+    ${r.passages.length ? `<h2 style="margin-top:18px">${heading}</h2><ol class="sources">${sources}</ol>` : ""}`;
+  $("result").hidden = false;
+}
+
+$("result").addEventListener("click", (e) => {
+  const c = e.target.closest(".cite");
+  if (!c) return;
+  const el = $(`src-${c.dataset.n}`);
+  el.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest" });
+  el.classList.add("flash");
+  setTimeout(() => el.classList.remove("flash"), 1200);
+});
+
+loadDocs();
+</script>
+</body>
+</html>

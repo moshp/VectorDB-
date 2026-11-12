@@ -54,6 +54,13 @@ def pdf_links(page: str) -> list[str]:
     return links
 
 
+def text_fingerprint(reader: PdfReader, n_pages: int = 5) -> str:
+    """SARS sometimes publishes the same document under two file names, with
+    different bytes but identical text; this catches those."""
+    text = " ".join((p.extract_text() or "") for p in reader.pages[:n_pages])
+    return hashlib.sha256(re.sub(r"\s+", " ", text).strip().lower().encode()).hexdigest()
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default="data/pdfs")
@@ -87,6 +94,10 @@ def main() -> None:
             }
 
     hashes = {hashlib.sha256(f.read_bytes()).hexdigest() for f in out.glob("*.pdf")}
+    fingerprints = set()
+    for f in out.glob("*.pdf"):
+        if manifest.get(f.name, {}).get("usable", True):
+            fingerprints.add(text_fingerprint(PdfReader(str(f))))
     seen_urls = {m["url"] for m in manifest.values() if m.get("url")}
 
     queues = {}
@@ -137,6 +148,12 @@ def main() -> None:
                 print(f"  DROP {name}: {n_pages} pages, {why}")
                 path.unlink()
                 continue
+            fingerprint = text_fingerprint(reader)
+            if fingerprint in fingerprints:
+                print(f"  SKIP {name}: same text as a guide already downloaded")
+                path.unlink()
+                continue
+            fingerprints.add(fingerprint)
             hashes.add(digest)
             manifest[path.name] = {
                 "url": url,

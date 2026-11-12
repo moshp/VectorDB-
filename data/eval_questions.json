@@ -1,62 +1,400 @@
 [
-  {"question": "What age group must young employees fall in for an employer to claim the Employment Tax Incentive?",
-   "docs": ["ETI01"], "answer": "18 (and|to) 29"},
-  {"question": "What is the rate of dividends tax?",
-   "docs": ["G19-Comprehensive-Guide-to-Dividends", "doc_05", "doc_06", "doc_07", "Gen02"], "answer": "20 ?%"},
-  {"question": "Are gains on shares held as trading stock for a long time taxed as capital or as income?",
-   "docs": ["IT11", "G19-Comprehensive-Guide-to-Dividends"], "answer": "three years"},
-  {"question": "When does a foreign supplier of electronic services have to register for VAT in South Africa?",
-   "docs": ["VAT-G16", "VAT02", "VAT-REG-02-G02"], "answer": "R1 million"},
-  {"question": "What turnover limit must a business stay under to qualify for turnover tax as a micro business?",
-   "docs": ["TT01-Tax-Guide", "TT01-FAQs", "TT-GEN-01", "Turnover-Tax-Leaflet", "Gen09"], "answer": "R1 million|R1 000 000"},
-  {"question": "How long does a taxpayer have to present a case under the mutual agreement procedure of a tax treaty?",
-   "docs": ["G24-Guide"], "answer": "three years"},
-  {"question": "How much is the monthly medical scheme fees tax credit for the taxpayer?",
-   "docs": ["IT07", "GEN-PT-01-G01", "IT-AE-36-G05", "Gen02"], "answer": "R ?364"},
-  {"question": "What estate duty rate applies to estates worth more than R30 million?",
-   "docs": ["G31-FAQs", "Gen02"], "answer": "25 ?%"},
-  {"question": "How many days does a taxpayer have to appeal after SARS disallows an objection?",
-   "docs": ["TAdm06"], "answer": "30 business days"},
-  {"question": "What makes a testamentary trust for relatives a type-B special trust?",
-   "docs": ["G20-Guide", "IT-AE-36-G02", "GEN-PT-01-G01"], "answer": "youngest"},
-  {"question": "How is the notional input tax that a motor dealer may deduct on second-hand vehicles limited?",
-   "docs": ["VAT420"], "answer": "notional input tax"},
-  {"question": "What counts as an insolvent estate for income tax purposes?",
-   "docs": ["G32-FAQs"], "answer": "sequestration"},
-  {"question": "When is the first provisional tax payment due?",
-   "docs": ["GEN-PT-01-G01"], "answer": "six months"},
-  {"question": "Since when must a buyer withhold tax when a non-resident sells property in South Africa?",
-   "docs": ["IT-PP-02"], "answer": "1 September 2007|section 35A"},
-  {"question": "Under which section of the Income Tax Act are public benefit organisations approved?",
-   "docs": ["IT26", "IT36"], "answer": "section 30"},
-  {"question": "By what date must VAT returns be submitted when filing manually compared to eFiling?",
-   "docs": ["doc_11"], "answer": "25th"},
-  {"question": "What is an auto-assessment of an individual's income tax return?",
-   "docs": ["IT-AE-36-G06", "IT-AE-36-G05"], "answer": "auto.?assessment"},
-  {"question": "How do I ask SARS to reduce an existing personal income tax assessment?",
-   "docs": ["GEN-GEN-56-G01"], "answer": "RRA01"},
-  {"question": "How soon must a new employer register for employees' tax, SDL and UIF?",
-   "docs": ["doc_09"], "answer": "21 days"},
-  {"question": "How much transfer duty is payable on the first R1 100 000 of a property's value?",
-   "docs": ["TD01", "Gen02", "Gen09"], "answer": "R1 100 000"},
-  {"question": "Until when is the urban development zone allowance available for buildings?",
-   "docs": ["IT12-Guide"], "answer": "31 March 2030"},
-  {"question": "For how long must I keep the supporting documents for my income tax return?",
-   "docs": ["IT-AE-36-G06", "IT-AE-36-G05", "IT-AE-36-G02"], "answer": "five years"},
-  {"question": "What are the source codes on an employee's income tax certificate used for?",
-   "docs": ["PAYE-AE-06-G06", "PAYE-AE-06-G08"], "answer": "source code"},
-  {"question": "Who is required to file Air Passenger Tax returns and make payments?",
-   "docs": ["doc_02"], "answer": "operator"},
-  {"question": "Why would SARS ask for access to a company's audit files?",
-   "docs": ["doc_10"], "answer": "audit file"},
-  {"question": "What two-factor authentication and password options does eFiling offer?",
-   "docs": ["doc_12"], "answer": "two-factor|password"},
-  {"question": "What is the annual exclusion for capital gains tax for an individual?",
-   "docs": ["CGT02", "IT-AE-36-G05", "Gen02", "Gen09"], "answer": "annual exclusion"},
-  {"question": "How are non-executive directors treated for VAT purposes?",
-   "docs": ["VAT15"], "answer": "non-executive director"},
-  {"question": "What is the standard VAT rate in South Africa?",
-   "docs": ["Gen02", "Gen09", "Gen-G08", "VAT420", "VAT15", "VAT-G16", "VAT02", "VAT-REG-02-G02", "LAPD-VAT-G06", "doc_11"], "answer": "15 ?%"},
-  {"question": "How does an employer reconcile PAYE using the EMP501 declaration?",
-   "docs": ["doc_08", "PAYE-easyFile", "PAYE-AE-06-G07"], "answer": "EMP501|reconciliation"}
+ {
+  "question": "What age group must young employees fall in for an employer to claim the Employment Tax Incentive?",
+  "docs": [
+   "ETI01"
+  ],
+  "answer": "18 (and|to) 29",
+  "reference": "Employees between the ages of 18 and 29.",
+  "key_facts": [
+   "18",
+   "29"
+  ]
+ },
+ {
+  "question": "What is the rate of dividends tax?",
+  "docs": [
+   "G19-Comprehensive-Guide-to-Dividends",
+   "doc_05",
+   "doc_06",
+   "doc_07",
+   "Gen02"
+  ],
+  "answer": "20 ?%",
+  "reference": "20% of the amount of the dividend paid (up from 15% for dividends paid on or after 22 February 2017).",
+  "key_facts": [
+   "20 ?%"
+  ]
+ },
+ {
+  "question": "Are gains on shares held as trading stock for a long time taxed as capital or as income?",
+  "docs": [
+   "IT11",
+   "G19-Comprehensive-Guide-to-Dividends"
+  ],
+  "answer": "three years",
+  "reference": "Proceeds on equity shares held for at least three years are treated as capital (section 9C).",
+  "key_facts": [
+   "three years|3 years",
+   "capital"
+  ]
+ },
+ {
+  "question": "When does a foreign supplier of electronic services have to register for VAT in South Africa?",
+  "docs": [
+   "VAT-G16",
+   "VAT-REG-02-G02"
+  ],
+  "answer": "R1 million",
+  "reference": "At the end of any month in which its taxable supplies exceed R1 million in a consecutive 12-month period.",
+  "key_facts": [
+   "R ?1 million|R ?1 000 000|1 million"
+  ]
+ },
+ {
+  "question": "What turnover limit must a business stay under to qualify for turnover tax as a micro business?",
+  "docs": [
+   "TT01-Tax-Guide",
+   "TT01-FAQs",
+   "TT-GEN-01",
+   "Turnover-Tax-Leaflet",
+   "Gen09"
+  ],
+  "answer": "R1 million|R1 000 000",
+  "reference": "A qualifying turnover of R1 million or less in the year of assessment.",
+  "key_facts": [
+   "1 million|1 000 000"
+  ]
+ },
+ {
+  "question": "How long does a taxpayer have to present a case under the mutual agreement procedure of a tax treaty?",
+  "docs": [
+   "G24-Guide"
+  ],
+  "answer": "three years",
+  "reference": "Within three years from the first notification of the action resulting in taxation not in accordance with the treaty.",
+  "key_facts": [
+   "three years|3 years"
+  ]
+ },
+ {
+  "question": "How much is the monthly medical scheme fees tax credit for the taxpayer?",
+  "docs": [
+   "IT07",
+   "GEN-PT-01-G01",
+   "IT-AE-36-G05",
+   "Gen02"
+  ],
+  "answer": "R ?364",
+  "reference": "R364 a month for the taxpayer (from 1 March 2025).",
+  "key_facts": [
+   "364"
+  ]
+ },
+ {
+  "question": "What estate duty rate applies to estates worth more than R30 million?",
+  "docs": [
+   "G31-FAQs",
+   "Gen02"
+  ],
+  "answer": "25 ?%",
+  "reference": "25% on the dutiable amount above R30 million (20% up to R30 million).",
+  "key_facts": [
+   "25 ?%"
+  ]
+ },
+ {
+  "question": "How many days does a taxpayer have to appeal after SARS disallows an objection?",
+  "docs": [
+   "TAdm06"
+  ],
+  "answer": "30 business days",
+  "reference": "30 business days after delivery of the notice of disallowance.",
+  "key_facts": [
+   "30 business days|30 days"
+  ]
+ },
+ {
+  "question": "What makes a testamentary trust for relatives a type-B special trust?",
+  "docs": [
+   "G20-Guide",
+   "IT-AE-36-G02",
+   "GEN-PT-01-G01"
+  ],
+  "answer": "youngest",
+  "reference": "It is created solely for relatives of the deceased and the youngest beneficiary is under 18.",
+  "key_facts": [
+   "youngest",
+   "18"
+  ]
+ },
+ {
+  "question": "How is the notional input tax that a motor dealer may deduct on second-hand vehicles limited?",
+  "docs": [
+   "VAT420"
+  ],
+  "answer": "notional input tax",
+  "reference": "To the tax fraction of the lesser of the consideration in money paid by the dealer or the open market value of the vehicle.",
+  "key_facts": [
+   "lesser",
+   "open market value|OMV"
+  ]
+ },
+ {
+  "question": "What counts as an insolvent estate for income tax purposes?",
+  "docs": [
+   "G32-FAQs"
+  ],
+  "answer": "sequestration",
+  "reference": "An estate under sequestration, i.e. where a court has ordered the surrender or sequestration of the estate.",
+  "key_facts": [
+   "sequestration"
+  ]
+ },
+ {
+  "question": "When is the first provisional tax payment due?",
+  "docs": [
+   "GEN-PT-01-G01"
+  ],
+  "answer": "six months",
+  "reference": "Within six months of the start of the year of assessment, i.e. by the end of August for a March to February year.",
+  "key_facts": [
+   "six months|6 months|August"
+  ]
+ },
+ {
+  "question": "Since when must a buyer withhold tax when a non-resident sells property in South Africa?",
+  "docs": [
+   "IT-PP-02"
+  ],
+  "answer": "1 September 2007|section 35A",
+  "reference": "Since 1 September 2007, under section 35A of the Income Tax Act.",
+  "key_facts": [
+   "2007"
+  ]
+ },
+ {
+  "question": "Under which section of the Income Tax Act are public benefit organisations approved?",
+  "docs": [
+   "IT26",
+   "IT36"
+  ],
+  "answer": "section 30",
+  "reference": "Section 30 of the Income Tax Act.",
+  "key_facts": [
+   "section 30"
+  ]
+ },
+ {
+  "question": "By what date must VAT returns be submitted when filing manually compared to eFiling?",
+  "docs": [
+   "doc_11"
+  ],
+  "answer": "25th",
+  "reference": "Manual returns by the 25th of the month; eFiling returns by the last business day of the month.",
+  "key_facts": [
+   "25",
+   "last business day"
+  ]
+ },
+ {
+  "question": "What is an auto-assessment of an individual's income tax return?",
+  "docs": [
+   "IT-AE-36-G06",
+   "IT-AE-36-G05"
+  ],
+  "answer": "auto.?assessment",
+  "reference": "SARS simulates the assessment using third-party data it already holds and issues an assessment based on estimates.",
+  "key_facts": [
+   "third.?party"
+  ]
+ },
+ {
+  "question": "How do I ask SARS to reduce an existing personal income tax assessment?",
+  "docs": [
+   "GEN-GEN-56-G01"
+  ],
+  "answer": "RRA01",
+  "reference": "Submit a Request for Reduced Assessment (RRA01) form via eFiling.",
+  "key_facts": [
+   "RRA01|reduced assessment"
+  ]
+ },
+ {
+  "question": "How soon must a new employer register for employees' tax, SDL and UIF?",
+  "docs": [
+   "doc_09"
+  ],
+  "answer": "21 days",
+  "reference": "Within 21 days after becoming an employer.",
+  "key_facts": [
+   "21 days"
+  ]
+ },
+ {
+  "question": "How much transfer duty is payable on the first R1 100 000 of a property's value?",
+  "docs": [
+   "TD01",
+   "Gen02",
+   "Gen09"
+  ],
+  "answer": "R1 100 000",
+  "reference": "None: the rate is 0% on the first R1 100 000 (from 1 March 2023).",
+  "key_facts": [
+   "0 ?%|nil|no transfer duty|not payable|zero|R ?0\\b"
+  ]
+ },
+ {
+  "question": "Until when is the urban development zone allowance available for buildings?",
+  "docs": [
+   "IT12-Guide"
+  ],
+  "answer": "31 March 2030",
+  "reference": "For buildings brought into use on or before 31 March 2030.",
+  "key_facts": [
+   "31 March 2030"
+  ]
+ },
+ {
+  "question": "For how long must I keep the supporting documents for my income tax return?",
+  "docs": [
+   "IT-AE-36-G06",
+   "IT-AE-36-G05",
+   "IT-AE-36-G02"
+  ],
+  "answer": "five years",
+  "reference": "Five years.",
+  "key_facts": [
+   "five (\\(5\\) )?years|5 years"
+  ]
+ },
+ {
+  "question": "What are the source codes on an employee's income tax certificate used for?",
+  "docs": [
+   "PAYE-AE-06-G06",
+   "PAYE-AE-06-G08"
+  ],
+  "answer": "source code",
+  "reference": "The employer uses them on the employee's tax certificate to identify each type of remuneration, deduction, employees' tax and employer contribution.",
+  "key_facts": [
+   "remuneration|deduction|allowance|income|benefit"
+  ]
+ },
+ {
+  "question": "Who is required to file Air Passenger Tax returns and make payments?",
+  "docs": [
+   "doc_02"
+  ],
+  "answer": "operator",
+  "reference": "Every operator liable for Air Passenger Tax, under section 47B(7).",
+  "key_facts": [
+   "operator"
+  ]
+ },
+ {
+  "question": "Why would SARS ask for access to a company's audit files?",
+  "docs": [
+   "doc_10"
+  ],
+  "answer": "audit file",
+  "reference": "To conduct a tax audit where risk is identified, as part of its mandate to collect revenue; the audit evidence supports that work.",
+  "key_facts": [
+   "tax audit|audit",
+   "risk|evidence|revenue|mandate|administration of a tax Act|foreseeably relevant"
+  ]
+ },
+ {
+  "question": "What two-factor authentication and password options does eFiling offer?",
+  "docs": [
+   "doc_12"
+  ],
+  "answer": "two-factor|password",
+  "reference": "Two-factor authentication asks for the password plus a second factor such as a one-time pin; eFiling also offers passwordless login.",
+  "key_facts": [
+   "one.time|OTP|second factor|passwordless"
+  ]
+ },
+ {
+  "question": "What is the annual exclusion for capital gains tax for an individual?",
+  "docs": [
+   "CGT02",
+   "IT-AE-36-G05",
+   "Gen02",
+   "Gen09"
+  ],
+  "answer": "annual exclusion",
+  "reference": "R40 000 (2024).",
+  "key_facts": [
+   "40 000|R40"
+  ]
+ },
+ {
+  "question": "How are non-executive directors treated for VAT purposes?",
+  "docs": [
+   "VAT15"
+  ],
+  "answer": "non-executive director",
+  "reference": "A non-executive director must register as a VAT vendor if their taxable supplies exceed R1 million in a 12-month period.",
+  "key_facts": [
+   "register|vendor",
+   "1 million|1 000 000"
+  ]
+ },
+ {
+  "question": "What is the standard VAT rate in South Africa?",
+  "docs": [
+   "Gen02",
+   "Gen09",
+   "Gen-G08",
+   "VAT420",
+   "VAT15",
+   "VAT-G16",
+   "VAT-REG-02-G02",
+   "LAPD-VAT-G06",
+   "doc_11"
+  ],
+  "answer": "15 ?%",
+  "reference": "15%.",
+  "key_facts": [
+   "15 ?%"
+  ]
+ },
+ {
+  "question": "How does an employer reconcile PAYE using the EMP501 declaration?",
+  "docs": [
+   "doc_08",
+   "PAYE-easyFile",
+   "PAYE-AE-06-G07"
+  ],
+  "answer": "EMP501|reconciliation",
+  "reference": "The employer submits the EMP501 with the IRP5/IT3(a) certificates, reconciling tax deducted, the liability declared on monthly EMP201 returns, and payments made.",
+  "key_facts": [
+   "EMP501",
+   "IRP5|IT3|certificate|EMP201|payment"
+  ]
+ },
+ {
+  "question": "What is the income tax rate for individuals in Kenya?",
+  "answerable": false
+ },
+ {
+  "question": "How much does it cost to renew a South African passport?",
+  "answerable": false
+ },
+ {
+  "question": "How do I claim unemployment benefits from the UIF after losing my job?",
+  "answerable": false
+ },
+ {
+  "question": "What is the corporate income tax rate in Namibia?",
+  "answerable": false
+ },
+ {
+  "question": "When is the deadline for filing a US federal income tax return?",
+  "answerable": false
+ },
+ {
+  "question": "What is the fine for driving over the speed limit on a national road?",
+  "answerable": false
+ }
 ]

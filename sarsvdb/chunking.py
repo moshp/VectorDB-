@@ -3,6 +3,7 @@ import re
 from dataclasses import dataclass
 from itertools import groupby
 
+LIST_ITEM = re.compile(r"^\(?([A-Za-z]{1,4}|\d{1,3})[).]\s|^[•\-–▪]\s?")
 HEADING = re.compile(r"^(\d+(\.\d+)*\.?\s+[A-Z][^.]{2,80}|[A-Z][A-Z0-9 ,&()/\-]{4,80})$")
 
 
@@ -31,6 +32,30 @@ def _units(pages: list[dict], tokenizer, chunk_tokens: int) -> list[Unit]:
                 piece = line[window[0][0]:window[-1][1]]
                 units.append(Unit(piece, p["page"], len(window), False))
     return units
+
+
+def _overlap(units: list[Unit], overlap_tokens: int) -> list[Unit]:
+    """The last lines of a chunk, about overlap_tokens long, to repeat at the
+    start of the next one. If those lines are items of a list, the list's
+    intro line ('...as follows:') comes with them, up to twice the budget,
+    so items such as 'A) Due on 30 Nov 2025' never lose what they refer to."""
+    tail, t = [], 0
+    for u in reversed(units):
+        if t + u.n_tokens > overlap_tokens:
+            break
+        tail.insert(0, u)
+        t += u.n_tokens
+    if not tail or not LIST_ITEM.match(tail[0].text):
+        return tail
+    start = len(units) - len(tail)
+    i = start - 1
+    while i >= 0 and LIST_ITEM.match(units[i].text) and not units[i].text.rstrip().endswith(":"):
+        i -= 1
+    if i >= 0 and units[i].text.rstrip().endswith(":"):
+        extended = units[i:]
+        if sum(u.n_tokens for u in extended) <= 2 * overlap_tokens:
+            return extended
+    return tail
 
 
 def _token_count(tokenizer, text: str) -> int:
@@ -71,13 +96,7 @@ def chunk_document(pages: list[dict], tokenizer, chunk_tokens: int,
             current, has_new = [], False
         elif current and has_new and size + unit.n_tokens > chunk_tokens:
             emit(current)
-            tail, t = [], 0
-            for u in reversed(current):
-                if t + u.n_tokens > overlap_tokens:
-                    break
-                tail.insert(0, u)
-                t += u.n_tokens
-            current, has_new = tail, False
+            current, has_new = _overlap(current, overlap_tokens), False
         current.append(unit)
         has_new = True
 

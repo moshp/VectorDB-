@@ -5,7 +5,7 @@ import time
 
 import numpy as np
 from sklearn.cluster import KMeans
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS, CountVectorizer
 from sklearn.manifold import TSNE
 from sklearn.metrics import silhouette_score
 
@@ -27,20 +27,68 @@ def choose_k(vectors: np.ndarray, k_min: int, k_max: int, seed: int = 42) -> tup
     return best, scores, labels_by_k[best]
 
 
-def topic_terms(texts: list[str], labels: np.ndarray, k: int, n_terms: int = 4) -> list[list[str]]:
-    """Class-based TF-IDF: words frequent in one topic but rare across topics."""
-    vec = CountVectorizer(stop_words="english", token_pattern=r"(?u)\b[a-zA-Z][a-zA-Z]{2,}\b", min_df=5)
+# Words found throughout every SARS guide; they say nothing about a topic.
+DOMAIN_STOP_WORDS = {
+    "sars", "tax", "taxes", "section", "sections", "guide", "act", "page", "pages", "revision",
+    "external", "paragraph", "paragraphs", "chapter", "example", "examples", "refer", "note",
+    "also", "must", "may", "will", "shall", "however", "applicable", "relevant", "terms",
+    "south", "africa", "african", "respect", "regard", "following", "person", "persons",
+}
+NAMES_FILE = config.DATA / "topic_names.json"
+
+
+def topic_terms(texts: list[str], labels: np.ndarray, k: int, n_terms: int = 5) -> list[list[str]]:
+    """Class-based TF-IDF over words and two-word phrases: terms frequent in
+    one topic but rare across topics. A word is dropped when a phrase
+    containing it already made the list."""
+    stop = list(ENGLISH_STOP_WORDS | DOMAIN_STOP_WORDS)
+    vec = CountVectorizer(stop_words=stop, token_pattern=r"(?u)\b[a-zA-Z][a-zA-Z]{2,}\b",
+                          ngram_range=(1, 2), min_df=5)
     counts = vec.fit_transform(texts)
     vocab = np.array(vec.get_feature_names_out())
     per_topic = np.vstack([np.asarray(counts[labels == t].sum(axis=0)).ravel() for t in range(k)])
     tf = per_topic / per_topic.sum(axis=1, keepdims=True)
     idf = np.log(1 + per_topic.sum(axis=1).mean() / per_topic.sum(axis=0))
     scores = tf * idf
-    return [list(vocab[np.argsort(-scores[t])[:n_terms]]) for t in range(k)]
+    out = []
+    for t in range(k):
+        picked: list[str] = []
+        for term in vocab[np.argsort(-scores[t])[:60]]:
+            words = set(term.split())
+            if any(words <= set(p.split()) or set(p.split()) <= words for p in picked):
+                continue
+            picked.append(str(term))
+            if len(picked) == n_terms:
+                break
+        out.append(picked)
+    return out
+
+
+def representative(vectors: np.ndarray, labels: np.ndarray, chunks: list[dict], t: int, n: int = 4) -> list[str]:
+    """The passages closest to the topic's centre."""
+    idx = np.flatnonzero(labels == t)
+    centre = vectors[idx].mean(axis=0)
+    best = idx[np.argsort(-(vectors[idx] @ centre))[:n]]
+    return [f"{chunks[i]['title']} (p. {chunks[i]['page_start']}): " + " ".join(chunks[i]["text"].split())[:300]
+            for i in best]
+
+
+def topic_names(topics: list[dict]) -> list[str]:
+    """Human-written topic names from data/topic_names.json. Each entry keeps
+    the terms it was written for; if the clustering has changed since, the
+    terms no longer match and the topic falls back to its terms."""
+    saved = json.loads(NAMES_FILE.read_text()) if NAMES_FILE.exists() else []
+    names = []
+    for tp in topics:
+        match = next((s["name"] for s in saved if s["terms"] == tp["terms"]), None)
+        if match is None:
+            print(f"  no saved name for topic {tp['id'] + 1} ({', '.join(tp['terms'])}); using its terms")
+        names.append(match or ", ".join(tp["terms"][:3]).capitalize())
+    return names
 
 
 def run(k_min: int, k_max: int, perplexity: float, seed: int = 42) -> None:
-    store = VectorStore.open(config.STORE_DIR)
+    store = VectorStore.open(config.EVAL_STORE)
     chunks = store.live_chunks()
     vectors = store.vectors[[c["row"] for c in chunks]]
 
@@ -66,10 +114,13 @@ def run(k_min: int, k_max: int, perplexity: float, seed: int = 42) -> None:
             doc_counts[c["title"]] = doc_counts.get(c["title"], 0) + 1
         topics.append({
             "id": new,
-            "label": ", ".join(terms[old]),
+            "terms": terms[old],
             "size": len(members),
             "top_docs": sorted(doc_counts.items(), key=lambda kv: -kv[1])[:3],
+            "examples": representative(vectors, labels, chunks, old),
         })
+    for tp, name in zip(topics, topic_names(topics)):
+        tp["label"] = name
 
     points = [
         [round(float(x), 2), round(float(y), 2), round(float(z), 2), remap[int(l)],
@@ -77,6 +128,8 @@ def run(k_min: int, k_max: int, perplexity: float, seed: int = 42) -> None:
         for (x, y, z), l, c in zip(xyz, labels, chunks)
     ]
     out = {
+        "model": config.MODEL_NAME,
+        "dim": int(vectors.shape[1]),
         "k": k,
         "silhouette": sil,
         "perplexity": perplexity,
@@ -88,7 +141,17 @@ def run(k_min: int, k_max: int, perplexity: float, seed: int = 42) -> None:
     }
     (config.DATA / "plot_data.json").write_text(json.dumps(out, ensure_ascii=False))
     for tp in topics:
-        print(f"  topic {tp['id']:2d} ({tp['size']:4d} chunks): {tp['label']}  | {tp['top_docs'][0][0]}")
+        print(f"  topic {tp['id'] + 1:2d} ({tp['size']:4d} chunks): {tp['label']}  [{', '.join(tp['terms'])}]")
+    render()
+
+
+def rename() -> None:
+    """Re-applies data/topic_names.json to the saved plot data without re-clustering."""
+    path = config.DATA / "plot_data.json"
+    data = json.loads(path.read_text())
+    for tp, name in zip(data["topics"], topic_names(data["topics"])):
+        tp["label"] = name
+    path.write_text(json.dumps(data, ensure_ascii=False))
     render()
 
 

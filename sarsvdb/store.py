@@ -28,17 +28,28 @@ CREATE TABLE IF NOT EXISTS chunks (
 );
 CREATE INDEX IF NOT EXISTS idx_chunk_id ON chunks(chunk_id);
 CREATE INDEX IF NOT EXISTS idx_doc ON chunks(doc);
+CREATE TABLE IF NOT EXISTS documents (
+    doc TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
+    fingerprint TEXT NOT NULL,
+    pages INTEGER NOT NULL,
+    ocr_pages TEXT NOT NULL,
+    chunks INTEGER NOT NULL,
+    uploaded_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_fingerprint ON documents(fingerprint);
 """
 FIELDS = ("chunk_id", "doc", "title", "category", "url", "page_start", "page_end", "n_tokens", "text")
 
 
 class VectorStore:
-    def __init__(self, path: Path, dim: int, model_name: str):
+    def __init__(self, path: Path, dim: int, model_name: str,
+                 hnsw_m: int = 16, hnsw_ef_construction: int = 100):
         self.path = Path(path)
         self.path.mkdir(parents=True, exist_ok=True)
         self.dim = dim
         self.model_name = model_name
-        self.db = sqlite3.connect(self.path / "chunks.sqlite")
+        self.db = sqlite3.connect(self.path / "chunks.sqlite", check_same_thread=False)
         self.db.row_factory = sqlite3.Row
         self.db.executescript(SCHEMA)
         vec_file = self.path / "vectors.npy"
@@ -47,12 +58,66 @@ class VectorStore:
         for (row,) in self.db.execute("SELECT row FROM chunks WHERE deleted = 0"):
             self.live[row] = True
         hnsw_file = self.path / "hnsw.json"
-        self.hnsw: Optional[HNSW] = HNSW.load(hnsw_file, self.vectors) if hnsw_file.exists() else None
+        if hnsw_file.exists():
+            self.hnsw: Optional[HNSW] = HNSW.load(hnsw_file, self.vectors)
+        elif len(self.vectors) == 0:
+            # A new store keeps its graph index current from the first chunk added.
+            self.hnsw = HNSW(dim, hnsw_m, hnsw_ef_construction)
+        else:
+            self.hnsw = None
 
     @classmethod
     def open(cls, path: Path) -> "VectorStore":
         meta = json.loads((Path(path) / "meta.json").read_text())
         return cls(path, meta["dim"], meta["model_name"])
+
+    @classmethod
+    def open_or_create(cls, path: Path, dim: int, model_name: str) -> "VectorStore":
+        meta_file = Path(path) / "meta.json"
+        if meta_file.exists():
+            meta = json.loads(meta_file.read_text())
+            if meta["model_name"] != model_name or meta["dim"] != dim:
+                raise RuntimeError(f"{path} was built with {meta['model_name']}; "
+                                   f"it can't be searched with {model_name}. Delete it to rebuild.")
+            return cls(path, dim, model_name)
+        store = cls(path, dim, model_name)
+        store.save()
+        return store
+
+    def add_document(self, doc: str, title: str, fp: str, pages: int, ocr_pages: list[int],
+                     chunks: list[dict], vectors: np.ndarray, uploaded_at: str) -> None:
+        self.db.execute(
+            "INSERT INTO documents (doc, title, fingerprint, pages, ocr_pages, chunks, uploaded_at) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (doc, title, fp, pages, json.dumps(ocr_pages), len(chunks), uploaded_at),
+        )
+        if chunks:
+            self.add(chunks, vectors)
+        self.save()
+
+    def delete_document(self, doc: str) -> bool:
+        ids = [cid for (cid,) in self.db.execute(
+            "SELECT chunk_id FROM chunks WHERE deleted = 0 AND doc = ?", (doc,))]
+        if ids:
+            self.delete(ids)
+        found = self.db.execute("DELETE FROM documents WHERE doc = ?", (doc,)).rowcount > 0
+        self.save()
+        return found
+
+    def find_document(self, fp: str) -> Optional[dict]:
+        row = self.db.execute("SELECT * FROM documents WHERE fingerprint = ?", (fp,)).fetchone()
+        return dict(row) if row else None
+
+    def documents(self) -> list[dict]:
+        out = []
+        for row in self.db.execute("SELECT * FROM documents ORDER BY uploaded_at"):
+            d = dict(row)
+            d["ocr_pages"] = json.loads(d["ocr_pages"])
+            out.append(d)
+        return out
+
+    def has_doc_name(self, doc: str) -> bool:
+        return self.db.execute("SELECT 1 FROM documents WHERE doc = ?", (doc,)).fetchone() is not None
 
     def __len__(self) -> int:
         return int(self.live.sum())

@@ -2,7 +2,9 @@
 agreement with exact search, speed, build time, memory and disk use."""
 import json
 import re
+import shutil
 import statistics
+import tempfile
 import time
 import tracemalloc
 from pathlib import Path
@@ -35,21 +37,54 @@ def _timed(fn, *args, **kwargs):
     return out, (time.perf_counter() - t) * 1000
 
 
+def _from_scratch_build_times(chunks: list[dict], vectors: np.ndarray) -> dict:
+    """Times building each index from the stored chunks and vectors: our exact
+    store and HNSW in a throwaway directory, ChromaDB in its own directory."""
+    stats = json.loads((config.EVAL_STORE / "ingest_stats.json").read_text())
+    added = [s for s in stats.values() if s.get("status") == "added"]
+    out = {
+        "pages": sum(s["pages"] for s in added),
+        "extract_s": sum(s["timings_s"]["extract"] for s in added),
+        "chunk_s": sum(s["timings_s"]["chunk"] for s in added),
+        "embed_s": sum(s["timings_s"]["embed"] for s in added),
+    }
+    fields = ("chunk_id", "doc", "title", "category", "url", "page_start", "page_end", "n_tokens", "text")
+    plain = [{f: c[f] for f in fields} for c in chunks]
+    with tempfile.TemporaryDirectory() as tmp:
+        scratch = VectorStore(Path(tmp), vectors.shape[1], config.MODEL_NAME)
+        scratch.hnsw = None
+        t = time.perf_counter()
+        scratch.add(plain, vectors)
+        out["flat_build_s"] = time.perf_counter() - t
+        t = time.perf_counter()
+        scratch.build_hnsw(config.HNSW_M, config.HNSW_EF_CONSTRUCTION)
+        out["hnsw_build_s"] = time.perf_counter() - t
+    shutil.rmtree(config.EVAL_CHROMA, ignore_errors=True)
+    t = time.perf_counter()
+    ChromaStore(config.EVAL_CHROMA).build(plain, vectors, config.HNSW_M,
+                                          config.HNSW_EF_CONSTRUCTION, config.HNSW_EF_SEARCH)
+    out["chroma_build_s"] = time.perf_counter() - t
+    return out
+
+
 def run(questions_path: str, n_agreement: int = 500, seed: int = 0) -> dict:
-    items = json.loads(Path(questions_path).read_text())
-    embedder = Embedder(config.MODEL_NAME)
-    store = VectorStore.open(config.STORE_DIR)
-    chroma = ChromaStore(config.CHROMA_DIR)
+    items = [it for it in json.loads(Path(questions_path).read_text()) if it.get("answerable", True)]
+    embedder = Embedder(config.MODEL_NAME, config.QUERY_PREFIX)
+    store = VectorStore.open(config.EVAL_STORE)
+    chunks = store.live_chunks()
+    vectors = store.vectors[[c["row"] for c in chunks]]
+    build = _from_scratch_build_times(chunks, vectors)
+    chroma = ChromaStore(config.EVAL_CHROMA)
 
     def search(method, q, k):
         if method == "chroma":
             return chroma.search(q, k)
         return store.search(q, k, method=method, ef=config.HNSW_EF_SEARCH)
 
-    embedder.encode([items[0]["question"]])  # warm-up
+    embedder.encode_queries([items[0]["question"]])  # warm-up
     qvecs, embed_times = [], []
     for it in items:
-        vec, ms = _timed(embedder.encode, [it["question"]])
+        vec, ms = _timed(embedder.encode_queries, [it["question"]])
         qvecs.append(vec[0])
         embed_times.append(ms)
     qvecs = np.stack(qvecs)
@@ -89,13 +124,14 @@ def run(questions_path: str, n_agreement: int = 500, seed: int = 0) -> dict:
             agreement[m].append(len(truth_ids & {h["chunk_id"] for h in got}) / len(truth_ids))
 
     tracemalloc.start()
-    graph = HNSW.load(config.STORE_DIR / "hnsw.json", store.vectors)
+    graph = HNSW.load(config.EVAL_STORE / "hnsw.json", store.vectors)
     hnsw_traced = tracemalloc.get_traced_memory()[0]
     tracemalloc.stop()
     hnsw_graph_bytes = hnsw_traced - graph.data.nbytes
 
-    build = json.loads((config.DATA / "build_stats.json").read_text())
     results = {
+        "model": config.MODEL_NAME,
+        "dim": store.dim,
         "n_questions": len(items),
         "n_chunks": len(store),
         "n_agreement_queries": len(sample),
@@ -109,9 +145,9 @@ def run(questions_path: str, n_agreement: int = 500, seed: int = 0) -> dict:
             "hnsw_edges": graph.n_edges(),
         },
         "disk": {
-            "ours_bytes": _dir_size(config.STORE_DIR),
-            "ours_without_hnsw_bytes": _dir_size(config.STORE_DIR) - (config.STORE_DIR / "hnsw.json").stat().st_size,
-            "chroma_bytes": _dir_size(config.CHROMA_DIR),
+            "ours_bytes": _dir_size(config.EVAL_STORE),
+            "ours_without_hnsw_bytes": _dir_size(config.EVAL_STORE) - (config.EVAL_STORE / "hnsw.json").stat().st_size,
+            "chroma_bytes": _dir_size(config.EVAL_CHROMA),
         },
     }
     for m in METHODS:
@@ -140,7 +176,8 @@ def _markdown(r: dict) -> str:
     lines = [
         "# SARS vector database: evaluation",
         "",
-        f"{r['n_chunks']:,} chunks from {b['pages']:,} pages, embedded with all-MiniLM-L6-v2 (384 dimensions). "
+        f"{r['n_chunks']:,} chunks from {b['pages']:,} pages, embedded with {r['model'].split('/')[-1]} "
+        f"({r['dim']} dimensions). "
         f"Both HNSW indexes use 16 links per node, construction width 100 and search width 64.",
         "",
         "## Retrieval quality and speed",

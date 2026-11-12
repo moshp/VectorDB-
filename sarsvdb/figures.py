@@ -21,18 +21,10 @@ COLORS = [
 ]
 
 
-def short_label(label: str, n: int = 2) -> str:
-    """'dividend, dividends, company, tax' -> 'Dividend, company'."""
-    kept = []
-    for term in label.split(", "):
-        if not any(term.startswith(k) or k.startswith(term) for k in kept):
-            kept.append(term)
-    return ", ".join(kept[:n]).capitalize()
-
 
 def _load():
     data = json.loads((config.DATA / "plot_data.json").read_text())
-    store = VectorStore.open(config.STORE_DIR)
+    store = VectorStore.open(config.EVAL_STORE)
     chunks = store.live_chunks()
     if len(chunks) != len(data["points"]):
         raise RuntimeError("plot_data.json is out of date; run `python3 -m sarsvdb plot` first")
@@ -114,7 +106,7 @@ def network_figure(data, chunks, vectors, topics, neighbours: int = 1) -> list[d
 
     used = sorted({g["topic"] for g in guides})
     handles = [Patch(facecolor=COLORS[t % len(COLORS)], edgecolor="#8a8a8a", linewidth=0.5,
-                     label=short_label(data["topics"][t]["label"])) for t in used]
+                     label=data["topics"][t]["label"]) for t in used]
     ax.legend(handles=handles, loc="lower left", fontsize=7, frameon=True, handlelength=2.4, handleheight=0.9)
     ax.set_axis_off()
     xs = np.array([p[0] for p in pos.values()])
@@ -139,11 +131,11 @@ def tsne3d_figure(data, topics) -> None:
     for t in range(data["k"]):
         m = topics == t
         ax.scatter(xyz[m, 0], xyz[m, 1], xyz[m, 2], s=8, color=COLORS[t % len(COLORS)], alpha=0.9,
-                   linewidths=0, depthshade=False, label=short_label(data["topics"][t]["label"]))
+                   linewidths=0, depthshade=False, label=data["topics"][t]["label"])
     for axis in (ax.xaxis, ax.yaxis, ax.zaxis):
-        axis.set_pane_color((0.93, 0.93, 0.93, 1.0))
-        axis._axinfo["grid"]["color"] = (1, 1, 1, 1)
-        axis._axinfo["grid"]["linewidth"] = 0.8
+        axis.pane.fill = False
+        axis.pane.set_edgecolor((1, 1, 1, 0))
+    ax.grid(False)
     ax.set_xlabel("V1")
     ax.set_ylabel("V2")
     ax.set_zlabel("V3")
@@ -169,7 +161,7 @@ def write_key(data, guides) -> None:
         "|---|---|---|---|---|",
     ]
     for g in guides:
-        lines.append(f"| {g['number']} | {g['title']} | {short_label(data['topics'][g['topic']]['label'])} "
+        lines.append(f"| {g['number']} | {g['title']} | {data['topics'][g['topic']]['label']} "
                      f"| {g['passages']} | `{g['doc']}` |")
     (config.PLOTS / "guide_network_key.md").write_text("\n".join(lines) + "\n")
 
