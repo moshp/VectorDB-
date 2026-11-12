@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+
+# Downloaded PDFs and everything built from them
+data/*
+!data/eval_questions.json
+
+# Generated reports and plot
+reports/

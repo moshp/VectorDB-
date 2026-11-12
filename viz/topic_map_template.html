@@ -1,0 +1,259 @@
+<title>SARS Guide Topic Map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap">
+<style>
+/* Layout: header with corpus figures, then the 3D map beside a clickable topic index; topic table below. */
+:root {
+  --bg: #f6f7f9;
+  --surface: #fcfcfb;
+  --ink: #14171c;
+  --ink-2: #4c525c;
+  --ink-3: #79808b;
+  --rule: #dde1e7;
+  --accent: #1f5fa8;
+  --dim: #c4c9d1;
+  --font-display: "Space Grotesk", "IBM Plex Sans", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100;
+  --s5: #e87ba4; --s6: #008300; --s7: #6250d6; --s8: #e34948;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121418; --surface: #1a1a19; --ink: #eef0f3; --ink-2: #b8bec8; --ink-3: #8a919c;
+    --rule: #2c3038; --accent: #6ea8ec; --dim: #3a3f48;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500;
+    --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121418; --surface: #1a1a19; --ink: #eef0f3; --ink-2: #b8bec8; --ink-3: #8a919c;
+  --rule: #2c3038; --accent: #6ea8ec; --dim: #3a3f48;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500;
+  --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 15px/1.55 var(--font-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 48px;
+}
+.wrap { max-width: 1240px; margin: 0 auto; display: grid; gap: 24px; }
+header { display: grid; gap: 10px; }
+.eyebrow { font: 500 12px/1 var(--font-data); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+h1 { font: 600 clamp(26px, 4vw, 36px)/1.1 var(--font-display); margin: 0; text-wrap: balance; }
+h2 { font: 600 20px/1.2 var(--font-display); margin: 0; }
+.lede { margin: 0; max-width: 68ch; color: var(--ink-2); }
+.figures { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 4px 0 0; padding: 0; list-style: none; }
+.figures li { display: grid; }
+.figures b { font: 500 22px/1.2 var(--font-data); font-variant-numeric: tabular-nums; }
+.figures span { font-size: 13px; color: var(--ink-3); }
+
+.explorer { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; align-items: start; }
+.plot-card { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; min-width: 0; overflow: hidden; }
+#plot { width: 100%; height: min(72vh, 680px); min-height: 420px; }
+.plot-note { margin: 0; padding: 10px 14px 12px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--ink-3); }
+
+.index { display: grid; gap: 8px; min-width: 0; }
+.index-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.index-head p { margin: 0; font-size: 13px; color: var(--ink-3); }
+#show-all { font: 500 13px/1 var(--font-body); color: var(--accent); background: none; border: 1px solid var(--rule); border-radius: 6px; padding: 7px 10px; cursor: pointer; }
+#show-all:disabled { color: var(--ink-3); cursor: default; }
+#topics { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; max-height: min(72vh, 680px); overflow-y: auto; }
+.topic { width: 100%; display: grid; grid-template-columns: 26px 18px minmax(0, 1fr) auto; gap: 8px; align-items: center;
+  text-align: left; background: none; border: 1px solid transparent; border-radius: 6px; padding: 6px 8px; cursor: pointer;
+  font: inherit; color: var(--ink); }
+.topic:hover { background: var(--bg); border-color: var(--rule); }
+.topic[aria-pressed="true"] { background: var(--surface); border-color: var(--accent); }
+.topic .num { font: 500 12px/1 var(--font-data); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.topic .label { font-size: 14px; line-height: 1.3; overflow-wrap: anywhere; }
+.topic .count { font: 400 12px/1 var(--font-data); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.topic svg { display: block; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.table-section { display: grid; gap: 10px; }
+.table-scroll { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 640px; }
+th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font: 500 12px/1.2 var(--font-data); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+td.n { font-family: var(--font-data); font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+.docs { color: var(--ink-2); }
+.method { margin: 0; max-width: 72ch; font-size: 13px; color: var(--ink-3); }
+
+@media (max-width: 900px) {
+  .explorer { grid-template-columns: minmax(0, 1fr); }
+  #topics { max-height: 360px; }
+  #plot { height: 460px; min-height: 0; }
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">SARS vector database &middot; 3D t-SNE</div>
+    <h1>SARS Guide Topic Map</h1>
+    <p class="lede">Each point is one ~200-token passage from a SARS guide, placed by the meaning of its text.
+      Passages about similar subjects sit close together. Colour and shape show the topic it was grouped into;
+      hover a point to read it, or pick a topic on the right to isolate it.</p>
+    <ul class="figures" id="figures"></ul>
+  </header>
+
+  <section class="explorer" aria-label="Topic map">
+    <div class="plot-card">
+      <div id="plot" role="img" aria-label="Interactive 3D scatter of SARS guide passages coloured by topic"></div>
+      <p class="plot-note">Drag to rotate, scroll to zoom. t-SNE keeps near neighbours together; distances between far-apart groups don&rsquo;t mean much.</p>
+    </div>
+    <div class="index">
+      <div class="index-head">
+        <h2>Topics</h2>
+        <button type="button" id="show-all" disabled>Show all</button>
+      </div>
+      <ul id="topics"></ul>
+    </div>
+  </section>
+
+  <section class="table-section" aria-labelledby="table-title">
+    <h2 id="table-title">Topics as a table</h2>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>#</th><th>Topic (most distinctive words)</th><th>Passages</th><th>Main guides</th></tr></thead>
+        <tbody id="topic-rows"></tbody>
+      </table>
+    </div>
+    <p class="method" id="method"></p>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.34.0/plotly.min.js"></script>
+<script>
+const DATA = /*__DATA__*/null;
+const SYMBOLS = ["circle", "diamond", "square"];
+const SLOTS = 8;
+let selected = null;
+
+const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+const hue = (i) => css(`--s${(i % SLOTS) + 1}`);
+const symbol = (i) => SYMBOLS[Math.floor(i / SLOTS) % SYMBOLS.length];
+const fmt = (n) => n.toLocaleString("en-ZA");
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+function swatch(i, size = 14) {
+  const c = hue(i), s = symbol(i), h = size / 2;
+  const shape = s === "circle" ? `<circle cx="${h}" cy="${h}" r="${h - 1.5}"/>`
+    : s === "square" ? `<rect x="2" y="2" width="${size - 4}" height="${size - 4}"/>`
+    : `<polygon points="${h},1 ${size - 1},${h} ${h},${size - 1} 1,${h}"/>`;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true" fill="${c}">${shape}</svg>`;
+}
+
+function wrap(text, width = 60) {
+  const out = []; let line = "";
+  for (const w of text.split(" ")) {
+    if ((line + " " + w).trim().length > width) { out.push(line); line = w; } else { line = (line + " " + w).trim(); }
+  }
+  if (line) out.push(line);
+  return out.join("<br>");
+}
+
+const byTopic = DATA.topics.map(() => ({ x: [], y: [], z: [], text: [] }));
+for (const [x, y, z, t, title, page, snippet] of DATA.points) {
+  const b = byTopic[t];
+  b.x.push(x); b.y.push(y); b.z.push(z);
+  b.text.push(`<b>${esc(title)}</b>, p. ${page}<br>${wrap(esc(snippet))}…`);
+}
+const centres = DATA.topics.map((_, t) => {
+  const med = (a) => { const s = [...a].sort((p, q) => p - q); return s[Math.floor(s.length / 2)]; };
+  return [med(byTopic[t].x), med(byTopic[t].y), med(byTopic[t].z)];
+});
+
+function traces() {
+  const ink = css("--ink"), dim = css("--dim"), surface = css("--surface");
+  const out = DATA.topics.map((tp, t) => {
+    const on = selected === null || selected === t;
+    return {
+      type: "scatter3d", mode: "markers", name: `${t + 1}. ${tp.label}`,
+      x: byTopic[t].x, y: byTopic[t].y, z: byTopic[t].z, text: byTopic[t].text,
+      hovertemplate: `<span style="font-size:11px">TOPIC ${t + 1} · ${esc(tp.label)}</span><br>%{text}<extra></extra>`,
+      marker: {
+        size: selected === t ? 3.6 : 2.6, symbol: symbol(t), color: on ? hue(t) : dim,
+        opacity: on ? 0.9 : 0.18, line: { width: 0 },
+      },
+      hoverinfo: on ? undefined : "skip",
+      showlegend: false,
+    };
+  });
+  const shown = DATA.topics.map((_, t) => t).filter((t) => selected === null || selected === t);
+  out.push({
+    type: "scatter3d", mode: "text", hoverinfo: "skip", showlegend: false,
+    x: shown.map((t) => centres[t][0]), y: shown.map((t) => centres[t][1]), z: shown.map((t) => centres[t][2]),
+    text: shown.map((t) => String(t + 1)),
+    textfont: { family: "IBM Plex Mono, monospace", size: 13, color: ink },
+  });
+  return out;
+}
+
+function layout() {
+  const ink2 = css("--ink-2"), rule = css("--rule"), surface = css("--surface");
+  const axis = { showticklabels: false, title: { text: "" }, showgrid: true, gridcolor: rule,
+    zeroline: false, showbackground: false, showspikes: false };
+  return {
+    paper_bgcolor: surface, plot_bgcolor: surface, margin: { l: 0, r: 0, t: 0, b: 0 },
+    font: { family: "IBM Plex Sans, system-ui, sans-serif", color: ink2 },
+    hoverlabel: { bgcolor: surface, bordercolor: rule, font: { color: css("--ink"), size: 12 }, align: "left" },
+    scene: { xaxis: axis, yaxis: axis, zaxis: axis, aspectmode: "cube",
+      camera: { eye: { x: 0.95, y: 0.95, z: 0.6 } } },
+    uirevision: "keep",
+  };
+}
+
+function draw() {
+  Plotly.react("plot", traces(), layout(), { displaylogo: false, responsive: true,
+    modeBarButtonsToRemove: ["toImage", "resetCameraLastSave3d"] });
+}
+
+function select(t) {
+  selected = selected === t ? null : t;
+  document.querySelectorAll(".topic").forEach((b) => b.setAttribute("aria-pressed", String(Number(b.dataset.t) === selected)));
+  document.getElementById("show-all").disabled = selected === null;
+  draw();
+}
+
+function renderLists() {
+  document.getElementById("topics").innerHTML = DATA.topics.map((tp, t) => `
+    <li><button type="button" class="topic" data-t="${t}" aria-pressed="${selected === t}">
+      <span class="num">${String(t + 1).padStart(2, "0")}</span>${swatch(t)}
+      <span class="label">${esc(tp.label)}</span><span class="count">${fmt(tp.size)}</span>
+    </button></li>`).join("");
+  document.getElementById("topic-rows").innerHTML = DATA.topics.map((tp, t) => `
+    <tr><td class="n">${t + 1}</td><td>${esc(tp.label)}</td><td class="n">${fmt(tp.size)}</td>
+      <td class="docs">${tp.top_docs.map(([d, n]) => `${esc(d)} (${fmt(n)})`).join("; ")}</td></tr>`).join("");
+  document.querySelectorAll(".topic").forEach((b) => b.addEventListener("click", () => select(Number(b.dataset.t))));
+}
+
+document.getElementById("figures").innerHTML = [
+  [fmt(DATA.n_points), "passages"], [fmt(DATA.n_docs), "SARS guides"], [fmt(DATA.k), "topics"],
+  ["384 → 3", "dimensions"],
+].map(([v, l]) => `<li><b>${v}</b><span>${l}</span></li>`).join("");
+
+const best = DATA.silhouette[DATA.k];
+const range = Object.keys(DATA.silhouette).map(Number);
+document.getElementById("method").textContent =
+  `Passages were embedded with all-MiniLM-L6-v2 and grouped with k-means. The number of topics, ${DATA.k}, ` +
+  `had the highest silhouette score (${best.toFixed(3)}) of all values tried from ${Math.min(...range)} to ${Math.max(...range)}. ` +
+  `Scores were low and close together across that range, so topics overlap rather than forming separate islands. ` +
+  `Topic names are each group's most distinctive words. The 3D layout is t-SNE with perplexity ${DATA.perplexity}.`;
+
+document.getElementById("show-all").addEventListener("click", () => select(selected));
+renderLists();
+draw();
+
+const redraw = () => { renderLists(); draw(); };
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redraw);
+new MutationObserver(redraw).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+</script>
